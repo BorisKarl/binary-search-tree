@@ -40,24 +40,50 @@ const tree = (array) => {
     }
 
     const deleteNode = (value, node) => {
+        if(node === null) return null;
+
+        if(value < node.data){
+            node.left = deleteNode(value, node.left);
+              return node;
+        } else if (value > node.data) {
+            node.right = deleteNode(value, node.right);
+            return node;
+        }
+      
         if(value === node.data) {
             if(node.right === null && node.left === null) {
                 console.log(`Node with value ${value} removed from tree`);
                 return null;
-            }else if(node.left !== null && node.right === null){
-                // verbinde den Knoten davor mit dem Knoten.left danach vor dem Löschen
-            }else if( node.right !== null && node.left === null){
-                // verbinde den Knoten davor mit dem Knoten.rigtht danach vor dem Löschen 
-            }else if(node.left !== null && node.right !== null){
+            } else if (node.left !== null && node.right === null){
+                let tmp = node.left;
+                delete node;
+                console.log(`Node with value ${value} removed from tree`);
+                return tmp;
+            } else if ( node.right !== null && node.left === null){
+                let tmp = node.right;
+                delete node;
+                console.log(`Node with value ${value} removed from tree`);
+                return tmp;
+            } else if (node.left !== null && node.right !== null) {
+                let parent = node;
+                let successor = node.right;
+                while(successor.left !== null){
+                    parent = successor;
+                    successor = successor.left;
+                }
+                if (parent !== node) {
+                    parent.left = successor.right;
+                } else {
+                    parent.right = successor.right;
+                }
 
+                node.data = successor.data;
+                delete successor;
+                return node;
             }
-            
-        if(value < node.data){
-            node.left = deleteNode(value, node.left);
-        }else{
-            node.right = deleteNode(value, node.right);
         }
-        return node;
+            
+        
     }
 
     return {
@@ -78,7 +104,7 @@ console.log("root node: " + testTree.root.data);
 console.log("root node: " + testTree.root.left);
 testTree.insertNode(2, testTree.root);
 testTree.insertNode(6, testTree.root);
-// testTree.deleteNode(2, testTree.root);
+testTree.deleteNode(4, testTree.root);
 
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -93,4 +119,6 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
 };
+
+
 prettyPrint(testTree.root);
