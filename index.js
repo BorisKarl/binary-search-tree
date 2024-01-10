@@ -1,4 +1,4 @@
-console.log("Moin!");
+console.log("Binary search tree");
 
 
 class Node {
@@ -56,7 +56,7 @@ const tree = (array) => {
                 return null;
             } else if (node.left !== null && node.right === null){
                 let tmp = node.left;
-                delete node;
+                node = null;
                 console.log(`Node with value ${value} removed from tree`);
                 return tmp;
             } else if ( node.right !== null && node.left === null){
@@ -78,33 +78,78 @@ const tree = (array) => {
                 }
 
                 node.data = successor.data;
-                delete successor;
+                successor = null;
                 return node;
             }
         }
-            
-        
     }
+
+
+        const findNode = (key, node) => {
+            if (node === null) return;
+
+            if (node.data === key) {
+                return node;
+            } else if (key < node. data) {
+                return findNode(key, node.left);
+            } else if (key > node.data) {
+                return findNode(key, node.right);
+            } else {
+                return null;
+            }
+            
+        }
+
+        const levelOrder = (root, callback) => {
+            if (root === null) return;
+            let queue = [];
+            let result = [];
+            queue.push(root);
+            while (queue.length > 0) {
+              let current = queue[0];
+              //result.push(current.data);
+              result.push(callback ? callback(current.data) : current.data);
+              if (current.left !== null) queue.push(current.left);
+              if (current.right !== null) queue.push(current.right);
+              queue.shift();
+            }
+            
+            if(!callback){
+                return result;
+            }
+        }
+
 
     return {
         root,
         buildTree,
         insertNode,
-        deleteNode
+        deleteNode,
+        findNode,
+        levelOrder
     }
 
 }
 
-
+const alertNode = (node) => {
+    alert(node);
+}
 
 const testTree = tree(testArray);
 
 console.log(testTree.root);
-console.log("root node: " + testTree.root.data);
-console.log("root node: " + testTree.root.left);
+console.log("root node.data: " + testTree.root.data);
+console.log("root node.left.data: " + testTree.root.left.data);
 testTree.insertNode(2, testTree.root);
 testTree.insertNode(6, testTree.root);
-testTree.deleteNode(4, testTree.root);
+//testTree.deleteNode(4, testTree.root);
+//testTree.deleteNode(5, testTree.root);
+const result = testTree.findNode(5, testTree.root);
+console.log("testTree.findNode(5, testTree.root): " + JSON.stringify(result));
+//testTree.levelOrder(testTree.root);
+
+ console.log(testTree.levelOrder(testTree.root));
+
 
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -122,3 +167,25 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 
 
 prettyPrint(testTree.root);
+
+//  key !== Number.isInteger(key)
+/*
+    // rekursiver Ansatz, geht aber erst links in die Tiefe, dann rechts...
+  if (root.left !== null) {
+                levelOrder(root.left, queue);
+                levelOrder(root.right, queue);
+
+            } else if (root.right !== null) {
+                levelOrder(root.right, queue);
+                levelOrder(root.left, queue);
+            }
+
+while (queue.length > 0) {
+                let currentNode = queue[0];
+                console.log(currentNode);
+                if(currentNode.left !== null) queue.push(currentNode.left);
+                if(currentNode.right !== null) queue.push(currentNode.right);
+                queue.shift();
+            }
+
+*/
