@@ -119,6 +119,71 @@ const tree = (array) => {
             }
         }
 
+            const preOrder = (node, callback, result = []) => {
+                if (node === null) return;
+                result.push(callback ? callback(node.data) : node.data);
+                if (node.left !== null) preOrder(node.left, callback, result);
+                if (node.right !== null) preOrder(node.right, callback, result);
+                
+                if(!callback) {
+                    return result;
+                }
+               
+            }
+
+            const postOrder = (node, callback, result = []) => {
+                if (node === null) return;
+                if (node.left !== null) preOrder(node.left, callback, result);
+                if (node.right !== null) preOrder(node.right, callback, result);
+                result.push(callback ? callback(node.data) : node.data);
+
+
+                 if (!callback) {
+                   return result;
+                 }
+            }
+
+
+            const inOrder = (node, callback, result = []) => {
+              if (node === null) return;
+              if (node.left !== null) inOrder(node.left, callback, result);
+              result.push(callback ? callback(node.data) : node.data);
+              if (node.right !== null) inOrder(node.right, callback, result);
+
+              if (!callback) {
+                return result;
+              }
+            }
+
+
+            const height = (node) => {
+                if (node === null) return 0;
+                return 1 + Math.max(height(node.left), height(node.right));
+            }
+
+            const depth = (target, node, count = 0) => {
+                if (node === null) {
+                    console.log(`No node with value ${target}`); 
+                    return;
+                }
+                if(target === node.data) {
+                    console.log(count);
+                    return;
+                }
+
+                if(target < node.data) {
+                    count++;
+                    depth(target, node.left, count);
+                }
+                if (target > node.data) {
+                    count++
+                    depth(target, node.right, count)
+                } 
+            
+        }
+
+
+
 
     return {
         root,
@@ -126,7 +191,14 @@ const tree = (array) => {
         insertNode,
         deleteNode,
         findNode,
-        levelOrder
+        levelOrder,
+        preOrder,
+        postOrder,
+        inOrder,
+        height,
+        depth,
+        isBalanced,
+
     }
 
 }
@@ -149,6 +221,20 @@ console.log("testTree.findNode(5, testTree.root): " + JSON.stringify(result));
 //testTree.levelOrder(testTree.root);
 
  console.log(testTree.levelOrder(testTree.root));
+
+console.log("PreOrder Traversal: ");
+console.log(testTree.preOrder(testTree.root));
+console.log("PostOrder Traversal: ");
+console.log(testTree.postOrder(testTree.root));
+console.log("InOrder Traversal: ");
+console.log(testTree.inOrder(testTree.root));
+console.log("Height function: ");
+console.log(testTree.height(testTree.root));
+console.log("Depth function: ");
+testTree.depth(1, testTree.root);
+testTree.depth(2, testTree.root);
+testTree.depth(324, testTree.root);
+testTree.depth(2222, testTree.root);
 
 
 
