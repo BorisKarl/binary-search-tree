@@ -9,8 +9,6 @@ class Node {
   }
 } 
 
-testArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-
 const tree = (array) => {
     let root = null;
     const sortedArray = array.sort((a, b) => a - b);
@@ -121,7 +119,12 @@ const tree = (array) => {
 
             const preOrder = (node, callback, result = []) => {
                 if (node === null) return;
-                result.push(callback ? callback(node.data) : node.data);
+                if (callback) {
+                     callback(node.data);
+                } else {
+                     result.push(node.data);
+               }
+
                 if (node.left !== null) preOrder(node.left, callback, result);
                 if (node.right !== null) preOrder(node.right, callback, result);
                 
@@ -135,7 +138,11 @@ const tree = (array) => {
                 if (node === null) return;
                 if (node.left !== null) preOrder(node.left, callback, result);
                 if (node.right !== null) preOrder(node.right, callback, result);
-                result.push(callback ? callback(node.data) : node.data);
+                 if (callback) {
+                   callback(node.data);
+                 } else {
+                   result.push(node.data);
+                 }
 
 
                  if (!callback) {
@@ -147,7 +154,11 @@ const tree = (array) => {
             const inOrder = (node, callback, result = []) => {
               if (node === null) return;
               if (node.left !== null) inOrder(node.left, callback, result);
-              result.push(callback ? callback(node.data) : node.data);
+               if (callback) {
+                 callback(node.data);
+               } else {
+                 result.push(node.data);
+               }
               if (node.right !== null) inOrder(node.right, callback, result);
 
               if (!callback) {
@@ -167,7 +178,7 @@ const tree = (array) => {
                     return;
                 }
                 if(target === node.data) {
-                    console.log(count);
+                    console.log(`${target} has depth of ${count}`);
                     return;
                 }
 
@@ -182,6 +193,28 @@ const tree = (array) => {
             
         }
 
+        const isBalanced = (node) => {
+            if (node === null) return 0;
+            
+            let leftH = height(node.left);
+            let rightH = height(node.right);
+            const ratio = leftH - rightH;
+            if (ratio < -1 || ratio > 1) {
+              console.log(`Tree is unbalanced, ratio ${ratio}`);
+              return ratio;
+            } else {
+              console.log(`Tree is balanced, ratio ${ratio}`);
+            }
+     
+        }
+
+    const rebalanceTree = (node) => {
+        let array = inOrder(node);
+        let end = array.length - 1;
+        let start = 0;
+        let balancedtree = buildTree(array, start, end);
+        return balancedtree;
+    }
 
 
 
@@ -198,29 +231,57 @@ const tree = (array) => {
         height,
         depth,
         isBalanced,
+        rebalanceTree
 
     }
 
 }
 
+
+
+
+// Callback function
 const alertNode = (node) => {
     alert(node);
 }
 
-const testTree = tree(testArray);
+// Prettyprint from TOP
+const prettyPrint = (node, prefix = "", isLeft = true) => {
+  if (node === null) {
+    return;
+  }
+  if (node.right !== null) {
+    prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+  }
+  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
+  if (node.left !== null) {
+    prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+  }
+};
 
-console.log(testTree.root);
-console.log("root node.data: " + testTree.root.data);
-console.log("root node.left.data: " + testTree.root.left.data);
+const randomArray = () => {
+    let a = [];
+    for (let i = 0; i < 100; i++) {
+        a.push(Math.floor(Math.random() * 100));
+    }
+    return a;
+}
+// Driver script
+// build tree
+console.log("Building tree with random array of 100 key between 0 and 100...");
+const testTree = tree(randomArray());
+prettyPrint(testTree.root);
+console.log("Insert nodes 2 and 6");
 testTree.insertNode(2, testTree.root);
 testTree.insertNode(6, testTree.root);
-//testTree.deleteNode(4, testTree.root);
-//testTree.deleteNode(5, testTree.root);
+prettyPrint(testTree.root);
+console.log("Delete node 6");
+testTree.deleteNode(6, testTree.root);
+prettyPrint(testTree.root);
 const result = testTree.findNode(5, testTree.root);
 console.log("testTree.findNode(5, testTree.root): " + JSON.stringify(result));
-//testTree.levelOrder(testTree.root);
-
- console.log(testTree.levelOrder(testTree.root));
+console.log("LevelOrder: ");
+console.log(testTree.levelOrder(testTree.root));
 
 console.log("PreOrder Traversal: ");
 console.log(testTree.preOrder(testTree.root));
@@ -235,27 +296,32 @@ testTree.depth(1, testTree.root);
 testTree.depth(2, testTree.root);
 testTree.depth(324, testTree.root);
 testTree.depth(2222, testTree.root);
+testTree.isBalanced(testTree.root);
+console.log(testTree.isBalanced(testTree.root));
+const newTree = testTree.rebalanceTree(testTree.root);
+console.log(newTree);
+prettyPrint(newTree);
 
-
-
-const prettyPrint = (node, prefix = "", isLeft = true) => {
-  if (node === null) {
-    return;
-  }
-  if (node.right !== null) {
-    prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
-  }
-  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
-  if (node.left !== null) {
-    prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
-  }
-};
-
-
+const deBalance = () => {
+    for (let i = 0; i < 10; i++){
+         testTree.insertNode((Math.floor(Math.random() * 1000)), testTree.root);
+    }
+}
+deBalance();
+console.log("Debalance tree...");
 prettyPrint(testTree.root);
+testTree.isBalanced(testTree.root);
+const rebalancedTreeTree = testTree.rebalanceTree(testTree.root);
+console.log("Rebalance tree...");
+prettyPrint(rebalancedTreeTree);
+testTree.isBalanced(rebalancedTreeTree);
+
 
 //  key !== Number.isInteger(key)
 /*
+testTree.insertNode(2, testTree.root);
+
+
     // rekursiver Ansatz, geht aber erst links in die Tiefe, dann rechts...
   if (root.left !== null) {
                 levelOrder(root.left, queue);
