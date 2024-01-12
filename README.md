@@ -13,4 +13,6 @@ A binary search tree implementation with the following functions:
 - `depth` returns the depth of node
 - `isBalanced` checks if tree is balanced or not
 - `rebalanceTree` rebalance tree
+
+  
 Demo here https://boriskarl.github.io/binary-search-tree/
