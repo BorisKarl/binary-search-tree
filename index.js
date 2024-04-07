@@ -1,4 +1,4 @@
-console.log("Binary search tree");
+console.log("Binary Search Tree by Boris Nielsen");
 
 
 class Node {
@@ -277,7 +277,7 @@ const deBalance = () => {
 
 // Driver script
 // build tree
-console.log("Building tree with random array of 100 key between 0 and 100...");
+console.log("Building tree with a random array of 100 keys between 0 and 100...");
 const testTree = tree(randomArray());
 prettyPrint(testTree.root);
 console.log("Insert nodes 2 and 6");
