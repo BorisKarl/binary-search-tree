@@ -20,20 +20,29 @@
 
         @media screen and (max-width: 480px) {
 
+
+              .content {
+                font-size: .6em;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                width: 30%;
+            }
+
+            .content h1 {
+                display: none;
+            }
+
             p {
-                width: 100vw;
                 text-align: left;
                 word-break: break-all;
             }
-            .content {
-                font-size: x-small;
-            }
           
-            footer {
-                position: fixed;
-                bottom: 10vh;
-                text-align: center;
-            }
+          footer {
+            left: -30%
+          }
+          
         }
     </style>
     <title>Binary Search Tree</title>
