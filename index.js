@@ -322,7 +322,10 @@ testTree.isBalanced(rebalancedTreeTree);
 const code = document.getElementById("code");
 const content = document.querySelector(".content");
 
-code.innerHTML = `// Driver script
+code.innerHTML = `
+<style></style>
+<p>
+// Driver script
 // build tree
 console.log("Building tree with random array of 100 key between 0 and 100...");
 const testTree = tree(randomArray());
@@ -364,6 +367,7 @@ testTree.isBalanced(testTree.root);
 const rebalancedTreeTree = testTree.rebalanceTree(testTree.root);
 console.log("Rebalance tree...");
 prettyPrint(rebalancedTreeTree);
-testTree.isBalanced(rebalancedTreeTree);`;
+testTree.isBalanced(rebalancedTreeTree);
+</p>`;
 
 content.appendChild(code);

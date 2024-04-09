@@ -14,8 +14,26 @@
         footer {
             position: absolute;
             margin-left: 30%;
-            margin-top: 10%;
+            margin-top: 5%;
             font-size: larger;
+        }
+
+        @media screen and (max-width: 480px) {
+
+            p {
+                width: 100vw;
+                text-align: left;
+                word-break: break-all;
+            }
+            .content {
+                font-size: x-small;
+            }
+          
+            footer {
+                position: fixed;
+                bottom: 10vh;
+                text-align: center;
+            }
         }
     </style>
     <title>Binary Search Tree</title>
@@ -28,7 +46,7 @@
     </div>
 </main>
 <footer>
-    Boris Nielsen 2024
+    Boris Nielsen &copy; 2024
 </footer>   
     
 </body>
